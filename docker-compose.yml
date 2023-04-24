@@ -12,3 +12,13 @@ services:
       - SYMLINK_LOGBACK=false
     command: >
       -r /restore.gwbk
+  database:
+    image: bwdesigngroup/mssql-docker
+    hostname: mssql
+    ports:
+      - 1433:1433
+    volumes:
+      - ./init-sql:/docker-entrypoint-initdb.d
+    # Uncomment the following line to enable backups
+    # Put all db backups in ./sql-backups folder
+    #  - ./sql-backups:/backups

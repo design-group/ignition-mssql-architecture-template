@@ -16,6 +16,18 @@ services:
       - default
       - proxy
 
+  database:
+    healthcheck:
+      disable: true
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.mssql-database-template.entrypoints: "web"
+      traefik.http.routers.mssql-database-template.rule: "Host(`mssql-database-template.localtest.me`)"
+      traefik.http.services.mssql-database-template.loadbalancer.server.port: "1433"
+    networks:
+      - default
+      - proxy
+
 networks:
   default:
   proxy:
