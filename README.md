@@ -10,7 +10,8 @@ ___
 
 ## Setup
 
-1. Follow [this guide from Github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) to create a new repository from the template.
+1. Follow [this guide from Github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
+   to create a new repository from the template.
 2. Create a new directory for your project and clone the repository into it.
 
     ```sh
@@ -63,9 +64,22 @@ ___
     docker-compose pull && docker-compose up -d
     ```
 
-10. In a web browser, access the gateway at `http://localhost/` (No port is required, since the template is using port 80)
+9.  In a web browser, access the gateway at `http://localhost/`
+    (No port is required, since the template is using port 80)
 
-11. If using trafik as a proxy, access the gateway at `http://<project-name>.localtest.me`
+___
+
+## Pre-Configured Database
+
+The template is pre-configured with a mssql database, that can be setup with an `setup.sql` script to create the database and tables.
+
+To setup the database, add your `setup.sql` script to the `init-sql` directory. If you want to run more DDL scripts, add them to the init-sql folder as well. The script will be run when the container is first created, and not as it is stopped and started.
+
+___
+
+## Backup Database
+
+To restore a database with a backup, create a directory called `sql-backups` and add the backup file to the `sql-backups` directory. The backup will be restored when the container is first created, and not as it is stopped and started.
 
 ___
 
