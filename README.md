@@ -1,4 +1,4 @@
-# Ignition Docker Project Template
+# MSSQL Docker Project Template
 
 ___
 
@@ -19,7 +19,7 @@ ___
     ```sh
     mkdir <project-name>
     cd <project-name>
-    git clone https://github.com/design-group/ignition-project-template.git .
+    git clone https://github.com/design-group/mssql-docker-project-template.git .
     ```
 
 3. Rename the vscode workspace file to match your project name.
