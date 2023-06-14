@@ -18,4 +18,5 @@ GO
 CREATE LOGIN Ignition WITH PASSWORD = 'P@ssword1!';
 USE DEFAULT_DB;
 CREATE USER Ignition FOR LOGIN Ignition;
+ALTER ROLE db_owner ADD MEMBER Ignition;
 GO
