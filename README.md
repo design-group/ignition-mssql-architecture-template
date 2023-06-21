@@ -12,14 +12,13 @@ ___
 
 ## Setup
 
-1. Follow [this guide from Github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
-   to create a new repository from the template.
+1. Follow [this guide from Github](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) to create a new repository from the template.
 2. Create a new directory for your project and clone the repository into it.
 
     ```sh
     mkdir <project-name>
     cd <project-name>
-    git clone https://github.com/design-group/mssql-docker-project-template.git .
+    git clone https://github.com/design-group/ignition-mssql-architecture-template.git .
     ```
 
 3. Rename the vscode workspace file to match your project name.
@@ -38,7 +37,7 @@ ___
 	COMPOSE_PROJECT_NAME=<project-name>
 	```
 
-	or if you are using trafik as a reverse proxy, set the `.env` file to:
+	or if you are using traefik as a reverse proxy, set the `.env` file to:
 
 	```sh
 	COMPOSE_PATH_SEPARATOR=:
@@ -66,8 +65,9 @@ ___
     docker-compose pull && docker-compose up -d
     ```
 
-9.  In a web browser, access the gateway at `http://localhost/`
-    (No port is required, since the template is using port 80)
+10.  In a web browser, access the gateway at `http://localhost/` (No port is required, since the template is using port 80)
+
+11. If using traefik as a proxy, access the gateway at `http://<project-name>.localtest.me`
 
 ___
 
