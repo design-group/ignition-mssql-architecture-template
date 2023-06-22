@@ -16,7 +16,7 @@ services:
     image: bwdesigngroup/mssql-docker
     hostname: mssql
     ports:
-      - 1433:1433
+      - 1433
     volumes:
       - ./init-sql:/docker-entrypoint-initdb.d
     # Uncomment the following line to enable backups
