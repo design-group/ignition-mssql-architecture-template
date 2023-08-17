@@ -77,6 +77,14 @@ The template is pre-configured with a mssql database, that can be setup with an 
 
 To setup the database, add your `setup.sql` script to the `init-sql` directory. If you want to run more DDL scripts, add them to the init-sql folder as well. The script will be run when the container is first created, and not as it is stopped and started.
 
+Default values for Ignition Gateway Database Connection (as specified in `setup.sql`):
+| Ignition Database Connection Property | Default Value (`setup.sql`)|
+| ------------- | ------------- |
+| Connect URL | `jdbc:sqlserver://mssql\MSSQLSERVER:1433`  |
+| Username  | `Ignition`  |
+| Password  | `P@ssword1!`  |
+| Extra Connection Properties  | `databaseName=DEFAULT_DB`  |
+
 ___
 
 ## Backup Database
@@ -96,3 +104,19 @@ bash download-gateway-backups.sh
 The backups are stored in the `backups` directory, and if configured in the compose file will automatically restore when the container is initially created. 
 
 If you are preparing this repository for another user, after configuration of the gateway is complete, run the above backup command, and then uncomment the volume and command listed in the `docker-compose.yml` file.
+
+___
+
+## Troubleshooting
+### Ignition Gateway Faulted
+If the Ignition Gateway doesn't load properly, such as showing "Faulted", verify that the `ignition-data` directory was manually created (if not using Mac OS). If the `ignition-data` directory has no files inside, it was most likely not manually created.
+
+To correct, first manually remove the directory:
+```sh
+sudo rm -r ignition-data/
+```
+ 
+Then recreate the directory:
+```sh
+mkdir ignition-data
+```
