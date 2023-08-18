@@ -85,6 +85,14 @@ Default values for Ignition Gateway Database Connection (as specified in `setup.
 | Password  | `P@ssword1!`  |
 | Extra Connection Properties  | `databaseName=DEFAULT_DB`  |
 
+Note: in the "Connect URL", `mssql` is the name of container hostname property.
+
+```
+services:
+  database:
+    image: bwdesigngroup.com/mssql-docker
+    hostname: mssql
+```
 ___
 
 ## Backup Database
