@@ -50,6 +50,20 @@ printf '\n ==================================================================== 
 
 read -rep $' Enter project name: ' project_name
 
+read -p "Which version of Ignition would you like to use? " input_tag
+
+# Use Docker API to list available tags for the image
+available_tags=$(curl -s "https://registry.hub.docker.com/v2/repositories/bwdesigngroup/ignition-docker/tags/" | jq -r '.results[].name')
+
+# Check if the input tag is valid
+if [[ -z "$input_tag" ]]; then
+    printf '\n Invalid input: Tag cannot be empty. Using default: latest.\n'
+    input_tag="latest"
+elif [[ ! "$available_tags" =~ "$input_tag" ]]; then
+    printf '\nInvalid input: Tag '$input_tag' does not exist in the repository. Using default: latest. \n'
+    input_tag="latest"
+fi
+
 # Setup and start Docker for reverse proxy
 # Run a command to check proxy.localtest.me for Traefik dashboard, if its not there then wait 5 seconds and try again
 printf '\n Checking Traefik dashboard at http(s)://proxy.localtest.me/dashboard/#/ \n'
@@ -113,9 +127,14 @@ COMPOSE_FILE=docker-compose.yaml:docker-compose.traefik.yaml
 COMPOSE_PROJECT_NAME=${project_name}
 EOF
 
-printf ' Updating Traefik compose file and README file with %s. \n' "${project_name}"
+printf ' Updating compose files and README file with %s. \n' "${project_name}"
+sed -i.bak "s/ignition-docker:latest/ignition-docker:${input_tag}/g" docker-compose.yaml
 sed -i.bak "s/ignition-template/${project_name}/g" docker-compose.traefik.yaml
 sed -i.bak "s/<project-name>/${project_name}/g" README.md
+
+if [ -f "docker-compose.yaml" ] && [ -f "docker-compose.yaml.bak" ]; then
+    rm docker-compose.yaml.bak
+fi
 
 if [ -f "docker-compose.traefik.yaml" ] && [ -f "docker-compose.traefik.yaml.bak" ]; then
     rm docker-compose.traefik.yaml.bak
