@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 pull_start_containers () {
     # Docker pull and start containers
@@ -50,7 +49,7 @@ printf '\n ==================================================================== 
 
 read -rep $' Enter project name: ' project_name
 
-read -rep $'Which version of Ignition would you like to use? ' input_tag
+read -rep $' Which version of Ignition would you like to use? ' input_tag
 
 # Use Docker API to list available tags for the image
 available_tags=$(curl -s "https://registry.hub.docker.com/v2/repositories/bwdesigngroup/ignition-docker/tags/" | jq -r '.results[].name')
@@ -59,8 +58,19 @@ available_tags=$(curl -s "https://registry.hub.docker.com/v2/repositories/bwdesi
 if [[ -z "$input_tag" ]]; then
     printf '\n Invalid input: Tag cannot be empty. Using default: latest.\n'
     input_tag="latest"
-elif [[ ! "$available_tags" =~ $input_tag ]]; then
-    printf '\nInvalid input: Tag %s does not exist in the repository. Using default: latest. \n' "${input_tag}"
+else
+    tag_found=false
+
+    for tag in $available_tags; do
+        if [[ "$tag" == "$input_tag" ]]; then
+            printf '\n Found Tag %s in the repository. \n' "${input_tag}"
+            tag_found=true
+        fi
+    done
+fi
+
+if [[ "$tag_found" == "false" ]]; then
+    printf '\n Invalid input: Tag %s does not exist in the repository. Using default: latest. \n' "${input_tag}"
     input_tag="latest"
 fi
 
@@ -110,9 +120,9 @@ while true; do
                 printf ' Please answer y or n. \n'
         esac
 
-    printf ' Cloning design-group/traefik-proxy into %s...\n' "${install_path}"
-    git clone https://github.com/design-group/traefik-proxy.git "${install_path}"
-    pull_start_containers "${project_name}" proxy "${install_path}"/docker-compose.yml
+        printf ' Cloning design-group/traefik-proxy into %s...\n' "${install_path}"
+        git clone https://github.com/design-group/traefik-proxy.git "${install_path}"
+        pull_start_containers "${project_name}" proxy "${install_path}"/docker-compose.yml
     fi
 done
 
