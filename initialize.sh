@@ -50,7 +50,7 @@ printf '\n ==================================================================== 
 
 read -rep $' Enter project name: ' project_name
 
-read -p "Which version of Ignition would you like to use? " input_tag
+read -rep $'Which version of Ignition would you like to use? ' input_tag
 
 # Use Docker API to list available tags for the image
 available_tags=$(curl -s "https://registry.hub.docker.com/v2/repositories/bwdesigngroup/ignition-docker/tags/" | jq -r '.results[].name')
@@ -59,8 +59,8 @@ available_tags=$(curl -s "https://registry.hub.docker.com/v2/repositories/bwdesi
 if [[ -z "$input_tag" ]]; then
     printf '\n Invalid input: Tag cannot be empty. Using default: latest.\n'
     input_tag="latest"
-elif [[ ! "$available_tags" =~ "$input_tag" ]]; then
-    printf '\nInvalid input: Tag '$input_tag' does not exist in the repository. Using default: latest. \n'
+elif [[ ! "$available_tags" =~ $input_tag ]]; then
+    printf '\nInvalid input: Tag %s does not exist in the repository. Using default: latest. \n' "${input_tag}"
     input_tag="latest"
 fi
 
